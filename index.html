@@ -1,58 +1,141 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Pablo ywri perguntas gerais </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .opcoes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #e2e6ea;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .escondido {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-    <h1>meu primeiro site</h1>
-    <h2>site</h2>
-    <header>
-        <main>
-    <p>Por:Pablo Ywri</p>
-    <p>site sobre curiosidades </p>
-    <main>
-        def executar_quiz():
-    perguntas = [
+
+<div class="quiz-container">
+    <h1>Quiz de Conhecimentos Gerais</h1>
+    <div id="quiz">
+        <h2 id="pergunta">Carregando pergunta...</h2>
+        <div id="opcoes" class="opcoes-container"></div>
+    </div>
+    <div id="resultado" class="escondido"></div>
+</div>
+
+<script>
+    const perguntas = [
         {
-            "pergunta": "Qual é o maior oceano do planeta Terra?",
-            "opcoes": ["A) Oceano Atlântico", "B) Oceano Pacífico", "C) Oceano Índico", "D) Oceano Ártico"],
-            "resposta": "B"
+            pergunta: "Qual é o maior oceano do planeta Terra?",
+            opcoes: ["Oceano Atlântico", "Oceano Pacífico", "Oceano Índico", "Oceano Ártico"],
+            resposta: 1
         },
         {
-            "pergunta": "Qual planeta é conhecido como o 'Planeta Vermelho'?",
-            "opcoes": ["A) Vênus", "B) Júpiter", "C) Marte", "D) Saturno"],
-            "resposta": "C"
+            pergunta: "Qual planeta é conhecido como o 'Planeta Vermelho'?",
+            opcoes: ["Vênus", "Júpiter", "Marte", "Saturno"],
+            resposta: 2
         },
         {
-            "pergunta": "Quantos elementos existem na tabela periódica?",
-            "opcoes": ["A) 118", "B) 100", "C) 120", "D) 108"],
-            "resposta": "A"
+            pergunta: "Quantos elementos existem na tabela periódica?",
+            opcoes: ["118", "100", "120", "108"],
+            resposta: 0
         }
-    ]
+    ];
 
-    pontuacao = 0
+    let perguntaAtual = 0;
+    let pontuacao = 0;
 
-    print("--- Quiz de Conhecimentos Gerais ---\n")
+    const elementoPergunta = document.getElementById("pergunta");
+    const elementoOpcoes = document.getElementById("opcoes");
+    const elementoResultado = document.getElementById("resultado");
+    const elementoQuiz = document.getElementById("quiz");
 
-    for idx, item in enumerate(perguntas, start=1):
-        print(f"Pergunta {idx}: {item['pergunta']}")
-        for opcao in item["opcoes"]:
-            print(opcao)
-        
-        resposta_usuario = input("Sua resposta (A, B, C ou D): ").strip().upper()
-        
-        if resposta_usuario == item["resposta"]:
-            print("Correto!\n")
-            pontuacao += 1
-        else:
-            print(f"Incorreto. A resposta certa era {item['resposta']}.\n")
+    function carregarPergunta() {
+        const itemAtual = perguntas[perguntaAtual];
+        elementoPergunta.textContent = itemAtual.pergunta;
+        elementoOpcoes.innerHTML = "";
 
-    print(f"Fim do jogo! Você acertou {pontuacao} de {len(perguntas)} perguntas.")
+        itemAtual.opcoes.forEach((opcao, indice) => {
+            const botao = document.createElement("button");
+            botao.textContent = opcao;
+            botao.onclick = () => verificarResposta(indice);
+            elementoOpcoes.appendChild(botao);
+        });
+    }
 
-if __name__ == "__main__":
-    executar_quiz()
+    function verificarResposta(indiceSelecionado) {
+        if (indiceSelecionado === perguntas[perguntaAtual].resposta) {
+            pontuacao++;
+        }
+
+        perguntaAtual++;
+
+        if (perguntaAtual < perguntas.length) {
+            carregarPergunta();
+        } else {
+            mostrarResultado();
+        }
+    }
+
+    function mostrarResultado() {
+        elementoQuiz.classList.add("escondido");
+        elementoResultado.classList.remove("escondido");
+        elementoResultado.textContent = `Fim do jogo! Você acertou ${pontuacao} de ${perguntas.length} perguntas.`;
+    }
+
+    carregarPergunta();
+</script>
+
 </body>
 </html>
