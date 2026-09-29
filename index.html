@@ -14,5 +14,45 @@
     <p>Por:Pablo Ywri</p>
     <p>site sobre curiosidades </p>
     <main>
+        def executar_quiz():
+    perguntas = [
+        {
+            "pergunta": "Qual é o maior oceano do planeta Terra?",
+            "opcoes": ["A) Oceano Atlântico", "B) Oceano Pacífico", "C) Oceano Índico", "D) Oceano Ártico"],
+            "resposta": "B"
+        },
+        {
+            "pergunta": "Qual planeta é conhecido como o 'Planeta Vermelho'?",
+            "opcoes": ["A) Vênus", "B) Júpiter", "C) Marte", "D) Saturno"],
+            "resposta": "C"
+        },
+        {
+            "pergunta": "Quantos elementos existem na tabela periódica?",
+            "opcoes": ["A) 118", "B) 100", "C) 120", "D) 108"],
+            "resposta": "A"
+        }
+    ]
+
+    pontuacao = 0
+
+    print("--- Quiz de Conhecimentos Gerais ---\n")
+
+    for idx, item in enumerate(perguntas, start=1):
+        print(f"Pergunta {idx}: {item['pergunta']}")
+        for opcao in item["opcoes"]:
+            print(opcao)
+        
+        resposta_usuario = input("Sua resposta (A, B, C ou D): ").strip().upper()
+        
+        if resposta_usuario == item["resposta"]:
+            print("Correto!\n")
+            pontuacao += 1
+        else:
+            print(f"Incorreto. A resposta certa era {item['resposta']}.\n")
+
+    print(f"Fim do jogo! Você acertou {pontuacao} de {len(perguntas)} perguntas.")
+
+if __name__ == "__main__":
+    executar_quiz()
 </body>
 </html>
